@@ -17,6 +17,10 @@ object PenyediaViewModel {
                 aplikasiDataSiswa().container.repositorySiswa
             )
         }
-
+        initializer {
+            EntryViewModel(
+                aplikasiDataSiswa().container.repositorySiswa
+            )
+        }
     }
 }
