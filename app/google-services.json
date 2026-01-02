@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:40655409032:android:96fec43f8e6c35e42d743d",
+        "mobilesdk_app_id": "1:40655409032:android:b535cc429356e8112d743d",
         "android_client_info": {
-          "package_name": "com.example.contohfirebase"
+          "package_name": "com.example.pertemuan14"
         }
       },
       "oauth_client": [],
