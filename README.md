@@ -10,8 +10,8 @@
 ![Database Awal](hasil/database-awal.png)  
 *Gambar 3: Kondisi awal database Firebase sebelum data ditambahkan.*
 
-### 🔹 Proses Penambahan Data ke Firebase
-![Tambah Data ke Database](hasil/database-add.png)  
+### 🔹 Hasil di database Setelah Submit
+![Data ditambahkan ke Database](hasil/database-add.png)  
 *Gambar 4: Proses penambahan data siswa ke Firebase Cloud Firestore.*
 
 ### 🔹 Hasil Setelah Data Ditambahkan
