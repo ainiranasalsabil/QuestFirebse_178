@@ -17,4 +17,27 @@ class EntryViewModel(
         private set
 
     /* Fungsi untuk memvalidasi input */
+    private fun validasiInput(
+        uiState: DetailSiswa = uiStateSiswa.detailSiswa
+    ): Boolean {
+        return with(uiState) {
+            nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
+        }
+    }
 
+    fun updateUiState(detailSiswa: DetailSiswa) {
+        uiStateSiswa = UIStateSiswa(
+            detailSiswa = detailSiswa,
+            isEntryValid = validasiInput(detailSiswa)
+        )
+    }
+
+    /* Fungsi untuk menyimpan data yang di-entry */
+    suspend fun addSiswa() {
+        if (validasiInput()) {
+            repositorySiswa.postDataSiswa(
+                uiStateSiswa.detailSiswa.toDataSiswa()
+            )
+        }
+    }
+}
