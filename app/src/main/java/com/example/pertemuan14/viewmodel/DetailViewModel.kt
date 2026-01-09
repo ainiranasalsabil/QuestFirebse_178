@@ -26,3 +26,38 @@ class DetailViewModel(
     private val repositorySiswa: RepositorySiswa
 ) : ViewModel() {
 
+    private val idSiswa: Long =
+        savedStateHandle.get<String>(DestinasiDetail.itemIdArg)?.toLong()
+            ?: error("idSiswa tidak ditemukan di SavedStateHandle")
+
+    var statusUIDetail: StatusUIDetail by mutableStateOf(StatusUIDetail.Loading)
+        private set
+
+    init {
+        getSatuSiswa()
+    }
+
+    fun getSatuSiswa() {
+        viewModelScope.launch {
+            statusUIDetail = StatusUIDetail.Loading
+            statusUIDetail = try {
+                StatusUIDetail.Success(
+                    satusiswa = repositorySiswa.getSatuSiswa(idSiswa)
+                )
+            } catch (e: IOException) {
+                StatusUIDetail.Error
+            } catch (e: Exception) {
+                StatusUIDetail.Error
+            }
+        }
+    }
+
+    suspend fun hapusSatuSiswa() {
+        try {
+            repositorySiswa.hapusSatuSiswa(idSiswa)
+            println("Sukses Hapus Data: $idSiswa")
+        } catch (e: Exception) {
+            println("Gagal Hapus Data: ${e.message}")
+        }
+    }
+}
