@@ -26,3 +26,10 @@ class EditViewModel(
         savedStateHandle.get<String>(DestinasiDetail.itemIdArg)?.toLong()
             ?: error("idSiswa tidak ditemukan di SavedStateHandle")
 
+    init {
+        viewModelScope.launch {
+            uiStateSiswa = repositorySiswa.getSatuSiswa(idSiswa)!!
+                .toUiStateSiswa(isEntryValid = true)
+        }
+    }
+
