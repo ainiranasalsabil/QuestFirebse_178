@@ -34,11 +34,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pertemuan14.viewmodel.HomeViewModel
+import com.example.pertemuan14.viewmodel.PenyediaViewModel
 import com.example.pertemuan14.R
 import com.example.pertemuan14.modeldata.Siswa
 import com.example.pertemuan14.view.route.DestinasiHome
-import com.example.pertemuan14.viewmodel.HomeViewModel
-import com.example.pertemuan14.viewmodel.PenyediaViewModel
 import com.example.pertemuan14.viewmodel.StatusUiSiswa
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,11 +47,11 @@ fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel (factory = PenyediaViewModel .Factory)
+    viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    Scaffold (
+    Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SiswaTopAppBar(
@@ -64,9 +64,7 @@ fun HomeScreen(
             FloatingActionButton(
                 onClick = navigateToItemEntry,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(
-                    dimensionResource(id = R.dimen.padding_large)
-                )
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -93,20 +91,22 @@ fun HomeBody(
     retryAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column (
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
         when (statusUiSiswa) {
             is StatusUiSiswa.Loading -> LoadingScreen()
-            is StatusUiSiswa.Success -> DaftarSiswa(
-                itemSiswa = statusUiSiswa.siswa,
-                onSiswaClick = { onSiswaClick(it.id.toInt()) }
-            )
-            is StatusUiSiswa.Error -> ErrorScreen(
-                retryAction = retryAction,
-                modifier = Modifier.fillMaxSize()
-            )
+            is StatusUiSiswa.Success ->
+                DaftarSiswa(
+                    itemSiswa = statusUiSiswa.siswa,
+                    onSiswaClick = { onSiswaClick(it.id.toInt()) }
+                )
+            is StatusUiSiswa.Error ->
+                ErrorScreen(
+                    retryAction = retryAction,
+                    modifier = modifier.fillMaxSize()
+                )
         }
     }
 }
@@ -114,9 +114,9 @@ fun HomeBody(
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Image(
+        modifier = modifier.size(200.dp),
         painter = painterResource(R.drawable.loading_img),
-        contentDescription = stringResource(R.string.loading),
-        modifier = modifier.size(200.dp)
+        contentDescription = stringResource(R.string.loading)
     )
 }
 
@@ -134,7 +134,7 @@ fun ErrorScreen(
             text = stringResource(R.string.gagal),
             modifier = Modifier.padding(16.dp)
         )
-        Button (onClick = retryAction) {
+        Button(onClick = retryAction) {
             Text(stringResource(R.string.retry))
         }
     }
@@ -146,16 +146,13 @@ fun DaftarSiswa(
     onSiswaClick: (Siswa) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn (modifier = modifier) {
-        items(
-            items = itemSiswa,
-            key = { it.id}
-        ) { person ->
+    LazyColumn(modifier = modifier) {
+        items(items = itemSiswa, key = { it.id }) { siswa ->
             ItemSiswa(
-                siswa = person,
+                siswa = siswa,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onSiswaClick(person) }
+                    .clickable { onSiswaClick(siswa) }
             )
         }
     }
@@ -166,26 +163,22 @@ fun ItemSiswa(
     siswa: Siswa,
     modifier: Modifier = Modifier
 ) {
-    Card (
+    Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
-            modifier = Modifier.padding(
-                dimensionResource(id = R.dimen.padding_large)
-            ),
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.padding_small)
             )
         ) {
-            Row (
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = siswa.nama,
                     style = MaterialTheme.typography.titleLarge
                 )
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(Modifier.weight(1f))
                 Icon(
                     imageVector = Icons.Default.Phone,
                     contentDescription = null
