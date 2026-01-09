@@ -7,7 +7,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -16,13 +23,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pertemuan14.R
 import com.example.pertemuan14.modeldata.DetailSiswa
 import com.example.pertemuan14.modeldata.UIStateSiswa
-import com.example.pertemuan14.view.route.DestinasiEntry
 import com.example.pertemuan14.viewmodel.EntryViewModel
 import com.example.pertemuan14.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
+import com.example.pertemuan14.R
+import com.example.pertemuan14.view.route.DestinasiEntry
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,38 +52,50 @@ fun EntrySiswaScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.padding_large)
-            ),
+        EntrySiswaBody(
+            uiStateSiswa = viewModel.uiStateSiswa,
+            onSiswaValueChange = viewModel::updateUiState,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.addSiswa()
+                    navigateBack()
+                }
+            },
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(dimensionResource(id = R.dimen.padding_medium))
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun EntrySiswaBody(
+    uiStateSiswa: UIStateSiswa,
+    onSiswaValueChange: (DetailSiswa) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.padding_large)
+        ),
+        modifier = modifier.padding(
+            dimensionResource(id = R.dimen.padding_medium)
+        )
+    ) {
+        FormTambahSiswa(
+            detailSiswa = uiStateSiswa.detailSiswa,
+            onValueChange = onSiswaValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            enabled = uiStateSiswa.isEntryValid,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
         ) {
-
-            /* ===== FORM INPUT ===== */
-            FormTambahSiswa(
-                detailSiswa = viewModel.uiStateSiswa.detailSiswa,
-                onValueChange = viewModel::updateUiState,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            /* ===== BUTTON SIMPAN ===== */
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        viewModel.addSiswa()
-                        navigateBack()
-                    }
-                },
-                enabled = viewModel.uiStateSiswa.isEntryValid,
-                shape = MaterialTheme.shapes.small,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.btn_submit))
-            }
+            Text(stringResource(R.string.btn_submit))
         }
     }
 }
@@ -94,7 +113,6 @@ fun FormTambahSiswa(
             dimensionResource(id = R.dimen.padding_medium)
         )
     ) {
-
         OutlinedTextField(
             value = detailSiswa.nama,
             onValueChange = { onValueChange(detailSiswa.copy(nama = it)) },
@@ -103,7 +121,6 @@ fun FormTambahSiswa(
             enabled = enabled,
             singleLine = true
         )
-
         OutlinedTextField(
             value = detailSiswa.alamat,
             onValueChange = { onValueChange(detailSiswa.copy(alamat = it)) },
@@ -112,7 +129,6 @@ fun FormTambahSiswa(
             enabled = enabled,
             singleLine = true
         )
-
         OutlinedTextField(
             value = detailSiswa.telpon,
             onValueChange = { onValueChange(detailSiswa.copy(telpon = it)) },
@@ -131,11 +147,10 @@ fun FormTambahSiswa(
                 )
             )
         }
-
         Divider(
-            thickness = dimensionResource(id = R.dimen.padding_small),
+            thickness = dimensionResource(R.dimen.padding_small),
             modifier = Modifier.padding(
-                bottom = dimensionResource(id = R.dimen.padding_medium)
+                bottom = dimensionResource(R.dimen.padding_medium)
             )
         )
     }
