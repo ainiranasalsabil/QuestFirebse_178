@@ -33,6 +33,11 @@ object PenyediaViewModel {
             )
         }
 
-
+        initializer {
+            EditViewModel(
+                this.createSavedStateHandle(),
+                aplikasiDataSiswa().container.repositorySiswa
+            )
+        }
     }
 }
