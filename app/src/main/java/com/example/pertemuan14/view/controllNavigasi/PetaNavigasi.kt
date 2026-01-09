@@ -81,6 +81,14 @@ fun HostNavigasi(
                 }
             )
         ) {
-
+            EditSiswaScreen(
+                navigateBack = {
+                    navController.navigate(DestinasiHome.route)
+                },
+                onNavigateUp = {
+                    navController.navigateUp()
+                }
+            )
+        }
     }
 }
