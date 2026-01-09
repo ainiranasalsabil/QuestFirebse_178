@@ -8,9 +8,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.pertemuan14.view.DetailSiswaScreen
+import com.example.pertemuan14.view.EditSiswaScreen
 import com.example.pertemuan14.view.EntrySiswaScreen
 import com.example.pertemuan14.view.HomeScreen
 import com.example.pertemuan14.view.route.DestinasiDetail
+import com.example.pertemuan14.view.route.DestinasiEdit
 import com.example.pertemuan14.view.route.DestinasiEntry
 import com.example.pertemuan14.view.route.DestinasiHome
 
@@ -19,7 +22,7 @@ fun DataSiswaApp(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
-    HostNavigasi(navController = navController)
+    HostNavigasi(navController = navController, modifier = modifier)
 }
 
 @Composable
@@ -30,10 +33,10 @@ fun HostNavigasi(
     NavHost(
         navController = navController,
         startDestination = DestinasiHome.route,
-        modifier = Modifier
+        modifier = modifier
     ) {
 
-        composable (DestinasiHome.route) {
+        composable(DestinasiHome.route) {
             HomeScreen(
                 navigateToItemEntry = {
                     navController.navigate(DestinasiEntry.route)
@@ -56,11 +59,28 @@ fun HostNavigasi(
             route = DestinasiDetail.routeWithArgs,
             arguments = listOf(
                 navArgument(DestinasiDetail.itemIdArg) {
-                    type = NavType.IntType
+                    type = NavType.StringType
                 }
             )
         ) {
-            // Detail screen (jika ada)
+            DetailSiswaScreen(
+                navigateToEditItem = {
+                    navController.navigate("${DestinasiEdit.route}/$it")
+                },
+                navigateBack = {
+                    navController.navigate(DestinasiHome.route)
+                }
+            )
         }
+
+        composable(
+            route = DestinasiEdit.routeWithArgs,
+            arguments = listOf(
+                navArgument(DestinasiEdit.itemIdArg) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+
     }
 }
