@@ -1,11 +1,11 @@
 ## 📌 Pertemuan 14 – Tambah Data Siswa (Firebase)
 
 ### 🔹 Tampilan Awal Aplikasi
-![Tampilan Awal](hasil/home.png)  
+![Tampilan Awal](hasil/Tampilan-awal.png)  
 *Gambar 1: Tampilan awal aplikasi sebelum dilakukan input data siswa.*
 
 ### 🔹 Halaman Tambah Data Siswa
-![Tambah Data Siswa](hasil/tambah.png)  
+![Tambah Data Siswa](hasil/add-siswa.png)  
 *Gambar 2: Halaman form untuk menambahkan data siswa.*
 
 ### 🔹 Kondisi Database Awal
