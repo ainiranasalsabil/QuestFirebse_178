@@ -12,3 +12,7 @@ import com.example.pertemuan14.repositori.RepositorySiswa
 class EntryViewModel(
     private val repositorySiswa: RepositorySiswa
 ) : ViewModel() {
+
+    var uiStateSiswa by mutableStateOf(UIStateSiswa())
+        private set
+
